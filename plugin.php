@@ -53,7 +53,7 @@ class contact_form_7_meta_box {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
 		add_action( 'save_post', array( $this, 'save_meta' ), 10, 2 );
 		
-		// add hook to show form
+		add_action( 'get_footer',array(&$this,'display_contact_form'),10);
 
 	} // end constructor
 	
@@ -130,6 +130,25 @@ class contact_form_7_meta_box {
 		if(isset($_POST[$this->meta_field])){
 			update_post_meta($post_ID,$this->meta_field,$_POST[$this->meta_field]);
 		}
+	}
+	
+	function has_contact_form($ID=false){
+		if(!$ID){
+			$ID = get_the_ID();
+		}
+		$selected_types = get_option( $this->option_types );
+		if(!in_array(get_post_type($ID),$selected_types)){
+			return false;
+		}
+		$form_id = get_post_meta($ID,$this->meta_field,true);
+		if(!$form_id) return false;
+		return $form_id;
+	}
+	
+	function display_contact_form(){
+		$form_id = $this->has_contact_form(get_the_ID());
+		if(!$form_id) return;
+		echo do_shortcode('[contact-form-7 id="'.$form_id.'" title="Contact Form Meta Box"]');
 	}
   
 } // end class
