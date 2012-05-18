@@ -6,3 +6,5 @@
 	?>><?=$form->post_title;?></option>
 	<?	endforeach;	?>
 </select>
+<label for="cf7mb-title">Title for form</label>
+<input id="cf7mb-title" name="cf7mb-title" value="<?=get_post_meta($post->ID,'cf7mb-title',true);?>" />

@@ -130,6 +130,9 @@ class contact_form_7_meta_box {
 		if(isset($_POST[$this->meta_field])){
 			update_post_meta($post_ID,$this->meta_field,$_POST[$this->meta_field]);
 		}
+		if(isset($_POST['cf7mb-title'])){
+			update_post_meta($post_ID,'cf7mb-title',$_POST['cf7mb-title']);
+		}
 	}
 	
 	function has_contact_form($ID=false){
@@ -148,7 +151,8 @@ class contact_form_7_meta_box {
 	function display_contact_form(){
 		$form_id = $this->has_contact_form(get_the_ID());
 		if(!$form_id) return;
-		echo do_shortcode('[contact-form-7 id="'.$form_id.'" title="Contact Form Meta Box"]');
+		$title = get_post_meta(get_the_ID(),'cf7mb-title',true);
+		echo do_shortcode('[contact-form-7 id="'.$form_id.'" title="'.$title.'"]');
 	}
   
 } // end class
