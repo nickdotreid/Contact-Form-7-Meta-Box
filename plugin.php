@@ -148,15 +148,25 @@ class contact_form_7_meta_box {
 		return $form_id;
 	}
 	
+	function get_contact_form($ID=false){
+		if(!$ID){
+			$ID = get_the_ID();
+		}
+		$form_id = $this->has_contact_form($ID);
+		if(!$form_id) return false;
+		$title = get_post_meta($ID,'cf7mb-title',true);
+		return do_shortcode('[contact-form-7 id="'.$form_id.'" title="'.$title.'"]');
+	}
+	
 	function display_contact_form(){
-		$form_id = $this->has_contact_form(get_the_ID());
-		if(!$form_id) return;
-		$title = get_post_meta(get_the_ID(),'cf7mb-title',true);
-		echo do_shortcode('[contact-form-7 id="'.$form_id.'" title="'.$title.'"]');
+		$form = $this->get_contact_form(get_the_ID());
+		if(!$form) return;
+		echo $form;
 	}
   
 } // end class
 
 $cf7mb = new contact_form_7_meta_box();
+require_once("functions.php");
 
 ?>
