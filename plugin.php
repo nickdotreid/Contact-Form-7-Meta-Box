@@ -157,5 +157,6 @@ class contact_form_7_meta_box {
   
 } // end class
 
-new contact_form_7_meta_box();
+$cf7mb = new contact_form_7_meta_box();
+
 ?>
